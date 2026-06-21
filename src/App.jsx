@@ -4,18 +4,19 @@ import GameScreen from './components/GameScreen'
 import Footer from './components/Footer'
 
 export default function App() {
-  const [difficulty, setDifficulty] = useState(null)
+  const [game, setGame] = useState(null)
 
   return (
     <div className="app">
-      {difficulty ? (
+      {game ? (
         <GameScreen
-          key={difficulty}
-          difficulty={difficulty}
-          onChangeLevel={() => setDifficulty(null)}
+          key={`${game.difficulty}-${game.region}`}
+          difficulty={game.difficulty}
+          region={game.region}
+          onChangeLevel={() => setGame(null)}
         />
       ) : (
-        <StartScreen onStart={setDifficulty} />
+        <StartScreen onStart={(difficulty, region) => setGame({ difficulty, region })} />
       )}
       <Footer />
     </div>

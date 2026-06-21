@@ -158,6 +158,47 @@ button {
   background: var(--red);
 }
 
+.regions {
+  margin-bottom: 32px;
+}
+
+.regions__title {
+  font-family: 'Fredoka', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--mint);
+  margin: 0 0 14px;
+}
+
+.regions__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.region {
+  padding: 9px 18px;
+  background: none;
+  color: var(--mint);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: border-color 0.18s var(--ease), background-color 0.18s var(--ease),
+    color 0.18s var(--ease);
+}
+
+.region:hover {
+  border-color: var(--mint);
+}
+
+.region--active {
+  background: var(--mint);
+  color: var(--ink);
+  border-color: var(--mint);
+}
+
 .levels__title {
   font-family: 'Fredoka', system-ui, sans-serif;
   font-weight: 600;

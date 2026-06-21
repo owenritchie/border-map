@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import Logo from './Logo'
-import { DIFFICULTY } from '../lib/game'
+import { DIFFICULTY, REGIONS } from '../lib/game'
 
 const LEVELS = [
   {
@@ -17,6 +18,8 @@ const LEVELS = [
 ]
 
 export default function StartScreen({ onStart }) {
+  const [region, setRegion] = useState('all')
+
   return (
     <main className="screen screen--start">
       <Logo size="large" />
@@ -42,11 +45,27 @@ export default function StartScreen({ onStart }) {
         </p>
       </div>
 
+      <div className="regions">
+        <h2 className="regions__title">Region</h2>
+        <div className="regions__row">
+          {REGIONS.map(({ key, label }) => (
+            <button
+              key={key}
+              className={`region${region === key ? ' region--active' : ''}`}
+              onClick={() => setRegion(key)}
+              aria-pressed={region === key}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="levels">
         <h2 className="levels__title">Pick a level</h2>
         <div className="levels__grid">
           {LEVELS.map(({ key, note }) => (
-            <button key={key} className="level" onClick={() => onStart(key)}>
+            <button key={key} className="level" onClick={() => onStart(key, region)}>
               <span className="level__name">{DIFFICULTY[key].label}</span>
               <span className="level__guesses">{DIFFICULTY[key].guesses} guesses</span>
               <span className="level__note">{note}</span>

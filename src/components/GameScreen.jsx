@@ -5,9 +5,9 @@ import CountrySelect from './CountrySelect'
 import EndScreen from './EndScreen'
 import { DIFFICULTY, allOptions, newRound, scoreGuess, isWin } from '../lib/game'
 
-export default function GameScreen({ difficulty, onChangeLevel }) {
+export default function GameScreen({ difficulty, region, onChangeLevel }) {
   const maxGuesses = DIFFICULTY[difficulty].guesses
-  const [round, setRound] = useState(() => newRound(difficulty))
+  const [round, setRound] = useState(() => newRound(difficulty, region))
   const [guess, setGuess] = useState(() => Array(round.slots).fill(null))
   const [guessesUsed, setGuessesUsed] = useState(0)
   const [revealed, setRevealed] = useState(null)
@@ -52,7 +52,7 @@ export default function GameScreen({ difficulty, onChangeLevel }) {
   }
 
   function playAgain() {
-    const r = newRound(difficulty)
+    const r = newRound(difficulty, region)
     setRound(r)
     setGuess(Array(r.slots).fill(null))
     setGuessesUsed(0)

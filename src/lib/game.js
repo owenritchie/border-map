@@ -6,6 +6,14 @@ export const DIFFICULTY = {
   hard: { label: 'Hard', guesses: 4, capitalHint: false },
 }
 
+export const REGIONS = [
+  { key: 'all', label: 'World' },
+  { key: 'Africa', label: 'Africa' },
+  { key: 'Americas', label: 'Americas' },
+  { key: 'Asia', label: 'Asia' },
+  { key: 'Europe', label: 'Europe' },
+]
+
 const MIN_BORDERS = 2
 const MAX_BORDERS = 6
 
@@ -20,11 +28,15 @@ const candidates = countries
   })
   .sort((a, b) => b.population - a.population)
 
-const tierSize = Math.floor(candidates.length / 3)
-const POOLS = {
-  easy: candidates.slice(0, tierSize),
-  medium: candidates.slice(tierSize, tierSize * 2),
-  hard: candidates.slice(tierSize * 2),
+function poolFor(difficulty, region) {
+  const scope = region === 'all' ? candidates : candidates.filter((c) => c.region === region)
+  const tierSize = Math.floor(scope.length / 3)
+  const tier = {
+    easy: scope.slice(0, tierSize),
+    medium: scope.slice(tierSize, tierSize * 2),
+    hard: scope.slice(tierSize * 2),
+  }[difficulty]
+  return tier.length ? tier : scope
 }
 
 export const allOptions = [...countries].sort((a, b) => a.name.localeCompare(b.name))
@@ -33,8 +45,8 @@ function pick(list) {
   return list[Math.floor(Math.random() * list.length)]
 }
 
-export function newRound(difficulty) {
-  const target = pick(POOLS[difficulty])
+export function newRound(difficulty, region = 'all') {
+  const target = pick(poolFor(difficulty, region))
   const answer = target.borders
     .map((code) => byCode[code])
     .sort((a, b) => b.area - a.area)
